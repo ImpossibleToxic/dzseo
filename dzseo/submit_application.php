@@ -1,29 +1,29 @@
 <?php
-$servername = "localhost"; 
-$username = "root"; 
-$password = "root"; 
-$dbname = "photostudio";
+$servername = "localhost"; // Имя сервера базы данных. В данном случае это локальный сервер.
+$username = "root"; // Имя пользователя для подключения к базе данных.
+$password = "root"; // Пароль для подключения к базе данных.
+$dbname = "photostudio"; // Имя базы данных, с которой мы будем работать.
 
-$conn = new mysqli($servername, $username, $password, $dbname);
+$conn = new mysqli($servername, $username, $password, $dbname); // Создает новое соединение с базой данных MySQL.
 
-if ($conn->connect_error) {
-    die("Ошибка подключения: " . $conn->connect_error);
+if ($conn->connect_error) { // Проверяет, произошла ли ошибка при подключении к базе данных.
+    die("Ошибка подключения: " . $conn->connect_error); // Если ошибка есть, выводит сообщение и завершает выполнение скрипта.
 }
 
-$name = $_POST['name'];
-$contact = $_POST['contact'];
-$session_type = $_POST['session_type'];
+$name = $_POST['name']; // Получает значение поля 'name' из POST-запроса.
+$contact = $_POST['contact']; // Получает значение поля 'contact' из POST-запроса.
+$session_type = $_POST['session_type']; // Получает значение поля 'session_type' из POST-запроса.
 
-$sql = "INSERT INTO applications (name, contact, session_type) VALUES (?, ?, ?)";
-$stmt = $conn->prepare($sql);
-$stmt->bind_param("sss", $name, $contact, $session_type);
+$sql = "INSERT INTO applications (name, contact, session_type) VALUES (?, ?, ?)"; // SQL-запрос для вставки данных в таблицу 'applications'.
+$stmt = $conn->prepare($sql); // Подготавливает SQL-запрос для выполнения.
+$stmt->bind_param("sss", $name, $contact, $session_type); // Связывает параметры с подготовленным запросом. 'sss' указывает на типы данных (все строки).
 
-if ($stmt->execute()) {
-    echo "Заявка успешно отправлена!";
+if ($stmt->execute()) { // Выполняет подготовленный запрос.
+    echo "Заявка успешно отправлена!"; // Если запрос выполнен успешно, выводит сообщение об успешной отправке заявки.
 } else {
-    echo "Ошибка: " . $sql . "<br>" . $conn->error;
+    echo "Ошибка: " . $sql . "<br>" . $conn->error; // Если произошла ошибка, выводит сообщение об ошибке и текст запроса.
 }
 
-$stmt->close();
-$conn->close();
+$stmt->close(); // Закрывает подготовленный запрос.
+$conn->close(); // Закрывает соединение с базой данных.
 ?>
